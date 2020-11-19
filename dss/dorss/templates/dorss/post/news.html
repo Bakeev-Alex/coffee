@@ -1,0 +1,143 @@
+{% extends 'dorss/base.html' %}
+<!-- здесь страница service
+ Примеры выполненых работ со страницы index ProjectsModel-->
+{% block title %}
+    <h3 class="project-title">{{ post.title }}</h3>
+{% endblock %}
+
+{% block content %}
+
+      <div class="list-page">
+        <ul class="wrapper breadcrumbs">
+          <li class="breadcrumbs__item">
+            <a href="{% url 'index' %}" class="breadcrumbs__link">Главная</a>
+          </li>
+          <li class="breadcrumbs__item">
+            <span class="breadcrumbs__last">Новости</span>
+          </li>
+        </ul>
+
+        <!-- Данная секция .projects - практически полный копипаст с главной. Отличается только заголовками и модификаторами -->
+        <!-- Здесь добавляется модификатор projects--list -->
+        <section class="projects projects--list">
+          <div class="wrapper projects__wrapper">
+            <div class="projects-top">
+              <!-- Здесь добавляется модификатор .header-block--bottom -->
+              <div class="header-block header-block--bottom">
+                <h2>Список новостей</h2>
+                <div class="header-block__text header-block__text--2">Список новостей</div>
+              </div>
+              <!-- Ссылка на все проекты убрана -->
+            </div>
+            <ul class="projects-items">
+              {% for news in news_post%}
+                <li class="projects-item">
+                <a href="#0" class="project">
+                  <div class="project-image">
+                    <picture>
+                      <source srcset="{{ news.image.url }}" type="image/webp">
+                      <img src="{{ news.image.url }}" alt="Реконструкция участка трассы М60">
+                    </picture>
+                  </div>
+                  <div class="project-overlay"></div>
+                  <h3 class="project-title">{{ news.title }}</h3>
+                  <div class="project-hover">
+                    <div>
+                      <h3 class="project-hover__title">{{ news.title }}</h3>
+                      <!-- Текст из админки start -->
+                      {{ news.body|safe|truncatewords:30 }}
+                      <!-- Текст из админки end -->
+                    </div>
+                    <div class="project-hover__read">
+                      Читать
+                    </div>
+                  </div>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </section>
+
+        <section class="projects projects--list">
+          <div class="wrapper projects__wrapper">
+            <div class="projects-top">
+              <!-- Здесь добавляется модификатор .header-block--bottom -->
+              <div class="header-block header-block--bottom">
+                <h2>Производственная база</h2>
+                <div class="header-block__text header-block__text--2">Производственная база</div>
+              </div>
+              <!-- Ссылка на все проекты убрана -->
+            </div>
+            <ul class="projects-items">
+              {% for product in production_post %}
+                <li class="projects-item">
+                <a href="#0" class="project">
+                  <div class="project-image">
+                    <picture>
+                      <source srcset="{{ product.image.url }}" type="image/webp">
+                      <img src="{{ product.image.url }}" alt="Реконструкция участка трассы М60">
+                    </picture>
+                  </div>
+                  <div class="project-overlay"></div>
+                  <h3 class="project-title">{{ product.title }}</h3>
+                  <div class="project-hover">
+                    <div>
+                      <h3 class="project-hover__title">{{ product.title }}</h3>
+                      <!-- Текст из админки start -->
+                      {{ product.body|safe|truncatewords:30 }}
+                      <!-- Текст из админки end -->
+                    </div>
+                    <div class="project-hover__read">
+                      Читать
+                    </div>
+                  </div>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </section>
+
+
+        </div>
+
+
+        {% if production_post.has_other_pages %}
+          <ul class="pagination">
+            {% if production_post.has_previous %}
+              <li class="pagination-item pagination-item--back">
+                <a href="?page={{ production_post.previous_page_number }}" title="Предыдущая страница" class="pagination-item__button">
+                <span class="icon">
+                  <svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.900321 15.8345C0.797428 15.9448 0.66881 16 0.527331 16C0.385852 16 0.257235 15.9448 0.154341 15.8345C-0.0514469 15.6138 -0.0514469 15.2552 0.154341 15.0345L6.71383 8L0.154341 0.965517C-0.0514469 0.744828 -0.0514469 0.386207 0.154341 0.165517C0.360129 -0.0551724 0.694534 -0.0551724 0.900321 0.165517L7.84566 7.6C8.05145 7.82069 8.05145 8.17931 7.84566 8.4L0.900321 15.8345Z" fill="white" />
+                  </svg>
+                </span>
+                </a>
+              </li>
+            {% endif %}
+
+            {% for i in production_post.paginator.page_range %}
+              {% if production_post.number == i %}
+                <li class="pagination-item"><span class="pagination-item__link">{{ i }}</span></li>
+              {% elif i > production_post.number|add:'-2' and i < production_post.number|add:'2' %}
+                <li class="pagination-item"><a href="?page={{ i }}" class="pagination-item__link">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+
+            {% if production_post.has_next %}
+              <li><a href="?page={{ production_post.next_page_number }}"title="Следующая страница" class="pagination-item__button">
+                <span class="icon">
+                  <svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.900321 15.8345C0.797428 15.9448 0.66881 16 0.527331 16C0.385852 16 0.257235 15.9448 0.154341 15.8345C-0.0514469 15.6138 -0.0514469 15.2552 0.154341 15.0345L6.71383 8L0.154341 0.965517C-0.0514469 0.744828 -0.0514469 0.386207 0.154341 0.165517C0.360129 -0.0551724 0.694534 -0.0551724 0.900321 0.165517L7.84566 7.6C8.05145 7.82069 8.05145 8.17931 7.84566 8.4L0.900321 15.8345Z" fill="white" />
+                  </svg>
+                </span>
+              </a></li>
+            {% endif %}
+          </ul>
+        {% endif %}
+
+      </div>
+
+
+{% endblock %}

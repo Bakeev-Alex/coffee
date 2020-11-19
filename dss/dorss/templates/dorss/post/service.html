@@ -1,0 +1,137 @@
+{% extends 'dorss/base.html' %}
+<!-- здесь страница service
+ Примеры выполненых работ со страницы index ProjectsModel-->
+{% block title %}
+{% endblock %}
+
+{% block content %}
+      <section class="service">
+        <ul class="wrapper breadcrumbs">
+          <li class="breadcrumbs__item">
+            <a href="{% url 'index' %}" class="breadcrumbs__link">Главная</a>
+          </li>
+          <li class="breadcrumbs__item">
+            <span class="breadcrumbs__last">Услуги</span>
+          </li>
+        </ul>
+        <div class="wrapper service__wrapper">
+          <div class="article-content">
+            <div class="service__intro">
+              <div class="service__intro--left">
+                <h1>{{ service.title }}</h1>
+                <span class="value">{{ service.price }}</span>
+                {{ service.body|safe }}
+                <a href="#order-service-modal" class="btn btn--orange" data-modal>Заказать услугу</a>
+              </div>
+              <div class="article-slider swiper-container js-article-slider">
+                <div class="swiper-wrapper">
+                  {% for image in image_service %}
+                    <div class="swiper-slide">
+                      <!-- Изображение обрезать в разрешении 680x488 -->
+                      <div class="article-slide">
+                        <div class="article-slide__img">
+                          <picture>
+                            <img src="{{ image.image_serv.url }}" alt="slide_alt">
+                          </picture>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+
+                  <div class="swiper-slide">
+                    <!-- Видео -->
+                    <div class="article-slide">
+                      <div class="article-slide__inner js-article-slide-video">
+                        <button class="video-btn js-video-preview" data-video-type="youtube" data-video-link="WNy2x8ykWgA">
+                          <img src="https://img.youtube.com/vi/WNy2x8ykWgA/maxresdefault.jpg" class="video-preview" alt="article-slide_alt">
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="article-slide">
+                      <div class="article-slide__inner js-article-slide-video">
+                        <button class="video-btn js-video-preview" data-video-type="youtube" data-video-link="MoD8KxpCYp4">
+                          <img src="https://img.youtube.com/vi/MoD8KxpCYp4/maxresdefault.jpg" class="video-preview" alt="article-slide_alt">
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="button" class="article-slider__btn article-slider__btn--prev">
+                  <span class="icon">
+                    <svg width="17" height="8" viewBox="0 0 17 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M16.3536 4.35355C16.5488 4.15829 16.5488 3.84171 16.3536 3.64645L13.1716 0.464467C12.9763 0.269205 12.6597 0.269205 12.4645 0.464467C12.2692 0.659729 12.2692 0.976312 12.4645 1.17157L15.2929 4L12.4645 6.82843C12.2692 7.02369 12.2692 7.34027 12.4645 7.53553C12.6597 7.7308 12.9763 7.7308 13.1716 7.53554L16.3536 4.35355ZM-4.37114e-08 4.5L16 4.5L16 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z" fill="#1B1B1B" />
+                    </svg>
+
+                  </span>
+                </button>
+                <button type="button" class="article-slider__btn article-slider__btn--next">
+                  <span class="icon">
+                    <svg width="17" height="8" viewBox="0 0 17 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M16.3536 4.35355C16.5488 4.15829 16.5488 3.84171 16.3536 3.64645L13.1716 0.464467C12.9763 0.269205 12.6597 0.269205 12.4645 0.464467C12.2692 0.659729 12.2692 0.976312 12.4645 1.17157L15.2929 4L12.4645 6.82843C12.2692 7.02369 12.2692 7.34027 12.4645 7.53553C12.6597 7.7308 12.9763 7.7308 13.1716 7.53554L16.3536 4.35355ZM-4.37114e-08 4.5L16 4.5L16 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z" fill="#1B1B1B" />
+                    </svg>
+
+                  </span>
+                </button>
+
+                <div class="swiper-pagination"></div>
+
+              </div>
+            </div>
+            <br><br>{{ service.body_center|safe }}
+          </div>
+        </div>
+        <section class="projects">
+        <div class="wrapper projects__wrapper">
+          <div class="projects-top">
+            <div class="header-block">
+              <h2>Выполненные проекты</h2>
+              <div class="header-block__text header-block__text--2">Выполненные<br>проекты</div>
+            </div>
+            <a href="#0" class="projects-all">Все проекты</a>
+          </div>
+
+          <ul class="projects-items">
+            {% for post_in in post_index %}
+              <li class="projects-item">
+                <a href="#0" class="project">
+                  <div class="project-image">
+                    <picture>
+                      <source srcset="{{ post_in.image.url }}" type="image/webp">
+                      <img src="{{ post_in.image.url }}" alt="Реконструкция участка трассы М60">
+                    </picture>
+                  </div>
+                  <div class="project-overlay"></div>
+                  <h3 class="project-title">{{ post_in.title }}</h3>
+                  <div class="project-hover">
+                    <div>
+                      <h3 class="project-hover__title">{{ post_in.title }}</h3>
+                      <!-- Текст из админки start -->
+                        {{ post_in.body_post|safe }}
+                      <!-- Текст из админки end -->
+                    </div>
+                    <div class="project-hover__read">
+                      Читать
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+
+        </div>
+      </section>
+        <div class="wrapper service__wrapper">
+          <div class="article-content service-table">
+            <h2>{{ service.title_table }}</h2>
+            <div class="table">
+              {{ service.body_table|safe }}
+            </div>
+            <a href="#order-service-new-modal" class="btn btn--orange" data-modal>Заказать услугу</a>
+          </div>
+        </div>
+      </section>
+{% endblock %}
